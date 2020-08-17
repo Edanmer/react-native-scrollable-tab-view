@@ -23,7 +23,6 @@ const ScrollableTabView = createReactClass({
   },
   scrollOnMountCalled: false,
   tabWillChangeWithoutGesture: false,
-  scrollView: React.createRef(),
 
   propTypes: {
     tabBarPosition: PropTypes.oneOf(["top", "bottom", "overlayTop", "overlayBottom"]),
@@ -219,7 +218,9 @@ const ScrollableTabView = createReactClass({
           pagingEnabled
           automaticallyAdjustContentInsets={false}
           contentOffset={{ x: this.props.initialPage * this.state.containerWidth }}
-          ref={this.scrollView}
+          ref={(scrollView) => {
+            this.scrollView = scrollView;
+          }}
           onScroll={Animated.event([{ nativeEvent: { contentOffset: { x: this.state.scrollXIOS } } }], { useNativeDriver: true, listener: this._onScroll })}
           onMomentumScrollBegin={this._onMomentumScrollBeginAndEnd}
           onMomentumScrollEnd={this._onMomentumScrollBeginAndEnd}
@@ -258,7 +259,9 @@ const ScrollableTabView = createReactClass({
               listener: this._onScroll,
             }
           )}
-          ref={this.scrollView}
+          ref={(scrollView) => {
+            this.scrollView = scrollView;
+          }}
           {...this.props.contentProps}>
           {scenes}
         </AnimatedViewPagerAndroid>
